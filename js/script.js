@@ -9,6 +9,24 @@ const btnOpen = document.getElementById("btn-open");
 const music = document.getElementById("bg-music");
 const musicToggle = document.getElementById("music-toggle");
 const musicIcon = document.getElementById("music-icon");
+const guestNameEl = document.getElementById("namaTamu");
+
+function normalizeName(value) {
+    return value
+        .trim()
+        .replace(/\+/g, ' ')
+        .replace(/[-_]+/g, ' ')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word[0]?.toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
+const searchParams = new URLSearchParams(window.location.search);
+const guestTo = searchParams.get("to");
+if (guestTo) {
+    guestNameEl.textContent = normalizeName(guestTo);
+}
 
 musicToggle.classList.add("visible");
 
