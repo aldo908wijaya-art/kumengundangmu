@@ -8,11 +8,15 @@ const opening = document.getElementById("opening");
 const btnOpen = document.getElementById("btn-open");
 const music = document.getElementById("bg-music");
 const musicToggle = document.getElementById("music-toggle");
+const musicIcon = document.getElementById("music-icon");
+
+musicToggle.classList.add("visible");
 
 btnOpen.onclick = () => {
     opening.classList.add("hidden");
     music.play().catch(()=>{});
-    musicToggle.classList.add("visible","playing");
+    musicToggle.classList.add("playing");
+    musicIcon.setAttribute("icon", "lucide:volume-2");
 };
 
 // ================= MUSIC =================
@@ -21,12 +25,28 @@ musicToggle.onclick = () => {
     if(isPlaying){
         music.pause();
         musicToggle.classList.remove("playing");
+        musicIcon.setAttribute("icon", "lucide:volume-x");
     } else {
-        music.play();
+        music.play().catch(()=>{});
         musicToggle.classList.add("playing");
+        musicIcon.setAttribute("icon", "lucide:volume-2");
     }
     isPlaying = !isPlaying;
 };
+
+music.addEventListener("error", () => {
+    console.warn("Background audio failed to load locally, switching to fallback source.");
+});
+
+music.addEventListener("play", () => {
+    musicToggle.classList.add("playing");
+    musicIcon.setAttribute("icon", "lucide:volume-2");
+});
+
+music.addEventListener("pause", () => {
+    musicToggle.classList.remove("playing");
+    musicIcon.setAttribute("icon", "lucide:volume-x");
+});
 
 // ================= SCROLL =================
 const progress = document.getElementById("scroll-progress");
@@ -37,7 +57,7 @@ window.onscroll = () => {
 };
 
 // ================= COUNTDOWN =================
-const target = new Date("2025-12-28").getTime();
+const target = new Date("2026-06-14").getTime();
 setInterval(()=>{
     let now = new Date().getTime();
     let d = target - now;
@@ -59,34 +79,6 @@ for(let i=0;i<25;i++){
     p.style.animationDelay=Math.random()*6+"s";
     particles.appendChild(p);
 }
-
-// ================= LIGHTBOX =================
-const imgs = document.querySelectorAll(".gallery-item img");
-const lb = document.getElementById("lightbox");
-const lbImg = document.getElementById("lb-img");
-const lbClose = document.getElementById("lb-close");
-const lbPrev = document.getElementById("lb-prev");
-const lbNext = document.getElementById("lb-next");
-const lbCounter = document.getElementById("lb-counter");
-
-let idx=0;
-const arr = [...imgs].map(i=>i.src);
-
-imgs.forEach((img,i)=>{
-    img.onclick=()=>{
-        idx=i;
-        showImg();
-        lb.classList.add("active");
-    }
-});
-
-function showImg(){
-    lbImg.src=arr[idx];
-    lbCounter.innerText=`${idx+1}/${arr.length}`;
-}
-lbClose.onclick=()=>lb.classList.remove("active");
-lbPrev.onclick=()=>{idx=(idx-1+arr.length)%arr.length;showImg();}
-lbNext.onclick=()=>{idx=(idx+1)%arr.length;showImg();}
 
 // ================= MODAL =================
 const modal = document.getElementById("success-modal");
@@ -182,7 +174,7 @@ const observer = new IntersectionObserver(entries=>{
     });
 },{threshold:0.15});
 
-document.querySelectorAll("section:not(#opening), .timeline-item, .event-card, .gallery-item, .wish-card")
+document.querySelectorAll("section:not(#opening), .timeline-item, .event-card, .wish-card")
 .forEach(el=>{
     el.classList.add("hidden-anim");
     observer.observe(el);
