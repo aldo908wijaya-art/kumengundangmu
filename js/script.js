@@ -1,7 +1,7 @@
 // ================= INIT =================
 AOS.init({ once: true });
 
-const RSVP_URL = "https://script.google.com/macros/s/AKfycbwQSI5DYCwtDsbSsZePHvN8O7kpyBWeZaI0nvGkqb4cUzuLC9Dkhd-XqVNLQISaRRE_/exec";
+const RSVP_URL = "https://script.google.com/macros/s/AKfycbxR6LKpXGIEuUx6PDkKxGWsS2VXMTrwiabEM9YMqv99l4qKrlP0zqbuKQ9GdWiBQc48/exec";
 
 // ================= OPENING =================
 const opening = document.getElementById("opening");
